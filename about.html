@@ -53,7 +53,18 @@
                 <img src="TemplateData/unipp.gif" alt="Pixel Planets Demo" loading="lazy">
             </div>
             
-            <p>The project began as an exploration of procedural generation techniques applied to pixel art. We wanted to create a tool that would be both accessible to beginners and deep enough for experienced artists to enjoy. The result is a platform where users can easily generate beautiful pixel planets with just a few clicks, while still having fine control over the details.</p>
+            <!-- <p>The project began as an exploration of procedural generation techniques applied to pixel art. We wanted to create a tool that would be both accessible to beginners and deep enough for experienced artists to enjoy. The result is a platform where users can easily generate beautiful pixel planets with just a few clicks, while still having fine control over the details.</p> -->
+        </section>
+
+        <section class="about-section">
+            <h2>Planet Examples</h2>
+            <p>Here are some examples of what you can create with Pixel Planets:</p>
+            
+            <div class="planet-examples" id="planet-examples">
+                <!-- Planet examples will be loaded via JavaScript -->
+            </div>
+            
+            <p>These are just a few examples of what's possible. With Pixel Planets, you can create an infinite variety of worlds, each with its own unique characteristics and visual style.</p>
         </section>
         
         <section class="about-section">
@@ -93,16 +104,7 @@
             </div>
         </section>
         
-        <section class="about-section">
-            <h2>Planet Examples</h2>
-            <p>Here are some examples of what you can create with Pixel Planets:</p>
-            
-            <div class="planet-examples" id="planet-examples">
-                <!-- Planet examples will be loaded via JavaScript -->
-            </div>
-            
-            <p>These are just a few examples of what's possible. With Pixel Planets, you can create an infinite variety of worlds, each with its own unique characteristics and visual style.</p>
-        </section>
+
         
         <section class="about-section">
             <h2>How It Works</h2>
@@ -121,26 +123,31 @@
         </section>
         
         <section class="about-section team-section">
-            <h2>The Team</h2>
-            <p>Pixel Planets is developed by a small team of two devs.
+            <h2>About Me</h2>
+            <p>Pixel Planets is a small project that I created with a friend to explore the possibilities of procedural generation in a web-based environment. We're passionate about art, technology, and games, and we wanted to combine those interests into a fun and accessible experience for everyone to enjoy.</p>
                 <p>(As well as the beautiful code and shaders provided by <a href="https://deep-fold.itch.io/pixel-planet-generator">@deep-fold</a>)</p>
     
             </p>
             
-            <div class="team-member">
+            <!-- <div class="team-member">
                 <div class="member-avatar" style="background: url('TemplateData/brayavi.png') no-repeat center center / cover;"></div>
                 <h3 class="member-name">Bray</h3>
                 <p class="member-role">Backend Architecture & Procedural Generation</p>
                 <p>Responsible for the core procedural generation algorithms and overall application architecture.</p>
-            </div>
+            </div> -->
             <div class="team-member">
                 <div class="member-avatar" style="background: url('TemplateData/tobyavi.png') no-repeat center center / cover;"></div>
                 <h3 class="member-name">Tobes</h3>
-                <p class="member-role">UI/UX Design & Web Development</p>
-                <p>Handles the user interface design, front-end development, and overall user experience of the application.</p>
+                <p class="member-role">Creator of Pixel Planets</p>
+                <p>Responsible for the design, development, and maintenance of Pixel Planets.</p>
             </div>
-            <p>We're constantly working to improve Pixel Planets and add new features. If you have suggestions or feedback, we'd love to hear from you!</p>
+            <p>I'm constantly working to improve Pixel Planets and add new features. If you have suggestions or feedback, i'd love to hear from you!</p>
         </section>
+        <form id="feedback-form">
+            <label for="feedbackMessage">Your Feedback</label>
+            <textarea id="feedbackMessage" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
     </main>
     
     <footer>
@@ -148,12 +155,35 @@
     </footer>
 
     <script>
+
+
+
         document.addEventListener('DOMContentLoaded', () => {
             createStars();
             setupMobileMenu();
             createPlanetExamples();
             checkSession();
         });
+
+
+            const feedbackForm = document.getElementById('feedback-form');
+            feedbackForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const supabaseUrl = "https://uscneaditvwbgcvablgp.supabase.co";
+                const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzY25lYWRpdHZ3YmdjdmFibGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NzQyMzIsImV4cCI6MjA1NzA1MDIzMn0.wozXuE7vxl3uc2gyZTXpIAQh_XrKJbG8vq7VT4mcVHM";
+    
+                const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        
+                try {
+                    const feedback = document.getElementById('feedbackMessage').value;
+                    await supabase.from('feedback').insert([{ message: feedback }]);
+                    alert('Feedback submitted!');
+                    feedbackForm.reset();
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Submission failed.');
+                }
+            });
 
         // Create stars background
         function createStars() {

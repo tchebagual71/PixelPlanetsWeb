@@ -1,0 +1,31 @@
+<!-- Add this just after "i'd love to hear from you!" in the "team-section" -->
+<form id="feedback-form">
+    <label for="feedbackMessage">Your Feedback</label>
+    <textarea id="feedbackMessage" required></textarea>
+    <button type="submit">Submit</button>
+</form>
+
+<!-- Then in your script section: -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Existing code ...
+
+    const feedbackForm = document.getElementById('feedback-form');
+    feedbackForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const supabaseUrl = "https://uscneaditvwbgcvablgp.supabase.co";
+        const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+        try {
+            const feedback = document.getElementById('feedbackMessage').value;
+            await supabase.from('feedback').insert([{ message: feedback }]);
+            alert('Feedback submitted!');
+            feedbackForm.reset();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Submission failed.');
+        }
+    });
+});
+</script>
