@@ -3,28 +3,120 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | UniPixelPlanet-main</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Planets - Create Your World</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
   <body>
+    <div class="stars" id="stars"></div>
+    
+    <div id="game-header">
+      <div id="user-info">
+        <!-- display user email here from supabase -->
+         <span id="username">Welcome, Planet Creator</span> 
+
+        <!-- <span id="username">Welcome, Planet Creator</span> -->
+        <!-- <div class="user-avatar">
+          <img  class="user-avatar" src="TemplateData/planet.png" alt="User Avatar">
+        </div> -->
+      </div>
+      <div class="header-buttons">
+        <button id="toggle-panel-btn" class="btn btn-secondary">My Planets</button>
+        <button id="logout-btn" class="btn btn-primary">Logout</button>
+      </div>
+    </div>
+
+    <div id="planets-panel">
+      <button id="close-panel" aria-label="Close panel">&times;</button>
+      <h2>My Planets</h2>
+      <div id="planet-gallery"></div>
+    </div>
+    
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
-      <div id="unity-warning"> </div>
+      <div id="unity-warning"></div>
       <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">         Copyright © 2023-2025 Pixel Planets. All rights reserved.
-
+        <div id="unity-fullscreen-button" title="Toggle Fullscreen"></div>
+        <div id="unity-build-title">Copyright © 2023-2025 Pixel Planets. All rights reserved.</div>
       </div>
     </div>
+    
     <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        createStars();
+        setupPanelToggle();
+        setupLogoutButton();
+        loadUserInfo();
+      });
+
+      function createStars() {
+        const starsContainer = document.getElementById('stars');
+        const count = 150;
+        
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            const size = Math.random() * 2;
+            const delay = Math.random() * 3;
+            
+            star.style.left = `${x}%`;
+            star.style.top = `${y}%`;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.animationDelay = `${delay}s`;
+            
+            starsContainer.appendChild(star);
+        }
+      }
+
+      function setupPanelToggle() {
+        const togglePanelBtn = document.getElementById('toggle-panel-btn');
+        const planetsPanel = document.getElementById('planets-panel');
+        const closePanel = document.getElementById('close-panel');
+        
+        togglePanelBtn.addEventListener('click', () => {
+          planetsPanel.classList.toggle('open');
+        });
+        
+        closePanel.addEventListener('click', () => {
+          planetsPanel.classList.remove('open');
+        });
+      }
+
+      function setupLogoutButton() {
+        const logoutBtn = document.getElementById('logout-btn');
+        logoutBtn.addEventListener('click', async () => {
+          const supabaseUrl = "https://uscneaditvwbgcvablgp.supabase.co";
+          const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzY25lYWRpdHZ3YmdjdmFibGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NzQyMzIsImV4cCI6MjA1NzA1MDIzMn0.wozXuE7vxl3uc2gyZTXpIAQh_XrKJbG8vq7VT4mcVHM";
+          const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+          
+          try {
+            await supabase.auth.signOut();
+            window.location.href = 'index.html';
+          } catch (error) {
+            console.error("Logout failed:", error);
+          }
+        });
+      }
+
+      function loadUserInfo() {
+        const userInfo = localStorage.getItem('pixelPlanetsUser');
+        if (userInfo) {
+          const user = JSON.parse(userInfo);
+          const usernameElem = document.getElementById('username');
+          usernameElem.textContent = `Welcome, ${user.email.split('@')[0]}`;
+        }
+      }
 
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
@@ -35,10 +127,6 @@
 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -70,31 +158,16 @@
         showBanner: unityShowBanner,
       };
 
-      // By default, Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
-
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-
+        // Mobile device style
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
         container.className = "unity-mobile";
         canvas.className = "unity-mobile";
-
-        // To lower canvas resolution on mobile devices to gain some
-        // performance, uncomment the following line:
-        // config.devicePixelRatio = 1;
-
-
       } else {
-        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
-
+        // Desktop style
         canvas.style.width = "960px";
         canvas.style.height = "600px";
       }
@@ -106,18 +179,17 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                loadingBar.style.display = "none";
-                fullscreenButton.onclick = () => {
-                  unityInstance.SetFullscreen(1);
-                };
-              }).catch((message) => {
-                alert(message);
-              });
-            };
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
 
       document.body.appendChild(script);
-
     </script>
   </body>
 </html>

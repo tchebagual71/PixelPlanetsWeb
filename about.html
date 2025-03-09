@@ -1,32 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>About Pixel Planets</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
-            line-height: 1.6;
-        }
-        h1 {
-            text-align: center;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Pixel Planets - Our Story</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta name="description" content="Learn about Pixel Planets - a web-based interactive experience for creating procedurally generated pixel art planets.">
 </head>
 <body>
-    <h1>About Pixel Planets</h1>
-    <p>
-        Pixel Planets is a web-based interactive experience that allows users 
-        to create and customize their own pixel art planets. Users can choose 
-        from a variety of biomes, atmospheres, and features to design unique 
-        worlds. The planets are procedurally generated, meaning each planet is 
-        one-of-a-kind. Users can save and share their creations with others, 
-        as well as explore planets created by the community.
-    </p>
-    <p>
-        © 2023-2025 Pixel Planets. All rights reserved.
-    </p>
+    <div class="stars" id="stars"></div>
+    
+    <header class="page-header">
+        <a href="index.html" class="logo">
+            <div class="logo-icon"></div>
+            Pixel Planets
+        </a>
+        
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">☰</button>
+        
+        <nav id="main-nav">
+            <ul>
+                <li><a href="index.html" class="cta-button">Home</a></li>
+                <li><a href="about.html" class="cta-button active" >About</a></li>
+                <li><a href="login.html" class="cta-button" id="login-btn">Start Creating</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="about-section">
+            <h2>About Pixel Planets</h2>
+            <p>Pixel Planets is a web-based interactive experience that lets you create and customize your own pixel art planets. Our procedural generation system ensures that each planet is unique, giving you endless possibilities to explore and create.</p>
+            
+            <div class="gif-container">
+                <img src="TemplateData/unipp.gif" alt="Pixel Planets Demo" loading="lazy">
+            </div>
+            
+            <p>The project began as an exploration of procedural generation techniques applied to pixel art. We wanted to create a tool that would be both accessible to beginners and deep enough for experienced artists to enjoy. The result is a platform where users can easily generate beautiful pixel planets with just a few clicks, while still having fine control over the details.</p>
+        </section>
+        
+        <section class="about-section">
+            <h2>Key Features</h2>
+            <p>Pixel Planets offers a range of features designed to make planet creation both fun and powerful:</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Procedural Generation</h3>
+                    <p>Each planet is algorithmically generated, ensuring that no two planets are exactly alike. Our system creates natural-looking terrains, atmospheres, and features.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Customizable Parameters</h3>
+                    <p>Control various aspects of your planet's appearance, including terrain type, color palette, atmosphere density, cloud coverage, and more.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Multiple Biomes</h3>
+                    <p>Create diverse planets with different biomes including deserts, oceans, forests, ice caps, volcanic regions, and many more.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Cloud Layers</h3>
+                    <p>Add atmospheric detail with customizable cloud layers that can be adjusted for density, altitude, and color.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Export & Share</h3>
+                    <p>Save your creations as PNG files to use in other projects, or share them directly with the Pixel Planets community.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Personal Gallery</h3>
+                    <p>Keep track of all your created planets in your personal gallery, where you can revisit and edit previous designs.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="about-section">
+            <h2>Planet Examples</h2>
+            <p>Here are some examples of what you can create with Pixel Planets:</p>
+            
+            <div class="planet-examples" id="planet-examples">
+                <!-- Planet examples will be loaded via JavaScript -->
+            </div>
+            
+            <p>These are just a few examples of what's possible. With Pixel Planets, you can create an infinite variety of worlds, each with its own unique characteristics and visual style.</p>
+        </section>
+        
+        <section class="about-section">
+            <h2>How It Works</h2>
+            <p>Pixel Planets uses advanced algorithms to generate realistic planetary surfaces at a pixel level. Here's a simplified overview of the process:</p>
+            
+            <ol class="process-list">
+                <li>Base shape generation using noise functions to create natural terrain variations</li>
+                <li>Biome distribution based on latitude, elevation, and other parameters</li>
+                <li>Color palette application according to selected themes and biomes</li>
+                <li>Atmosphere and cloud layer rendering with variable opacity and color</li>
+                <li>Detail pass to add features like craters, mountains, or ocean waves</li>
+                <li>Final rendering and optimization for web display</li>
+            </ol>
+            
+            <p>The entire process happens in real-time in your browser, allowing for immediate feedback as you adjust parameters and settings.</p>
+        </section>
+        
+        <section class="about-section team-section">
+            <h2>The Team</h2>
+            <p>Pixel Planets is developed by a small team of passionate developers, artists, and procedural generation enthusiasts:</p>
+            
+            <div class="team-member">
+                <div class="member-avatar"></div>
+                <h3 class="member-name">Lead Developer</h3>
+                <p class="member-role">Architecture & Procedural Generation</p>
+                <p>Responsible for the core procedural generation algorithms and overall application architecture.</p>
+            </div>
+            
+            <p>We're constantly working to improve Pixel Planets and add new features. If you have suggestions or feedback, we'd love to hear from you!</p>
+        </section>
+    </main>
+    
+    <footer>
+        &copy; 2023-2025 Pixel Planets. All rights reserved.
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            setupMobileMenu();
+            createPlanetExamples();
+            checkSession();
+        });
+
+        // Create stars background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const count = 150;
+            
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Random size
+                const size = Math.random() * 2;
+                
+                // Random animation delay
+                const delay = Math.random() * 3;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Toggle mobile menu
+        function setupMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mainNav = document.getElementById('main-nav');
+            
+            mobileMenuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('open');
+            });
+        }
+        
+        // Create example planets
+        function createPlanetExamples() {
+            const planetsContainer = document.getElementById('planet-examples');
+            const planetTypes = [
+                { type: 'desert', name: 'Desert Planet' },
+                { type: 'ocean', name: 'Ocean World' },
+                { type: 'forest', name: 'Forest Planet' },
+                { type: 'ice', name: 'Ice World' },
+                { type: 'volcanic', name: 'Volcanic Planet' },
+                { type: 'gas', name: 'Gas Giant' }
+            ];
+            
+            planetTypes.forEach(planet => {
+                const planetDiv = document.createElement('div');
+                planetDiv.className = 'planet-example';
+                planetDiv.setAttribute('aria-label', planet.name);
+                
+                // Create a div that would normally be an image
+                const planetImg = document.createElement('div');
+                planetImg.style.width = '100%';
+                planetImg.style.height = '100%';
+                planetImg.title = planet.name;
+                
+                // Assign different colors based on planet type
+                switch(planet.type) {
+                    case 'desert':
+                        planetImg.style.background = 'radial-gradient(circle, #d4b483 10%, #b38728 100%)';
+                        break;
+                    case 'ocean':
+                        planetImg.style.background = 'radial-gradient(circle, #66c3ff 10%, #2980b9 100%)';
+                        break;
+                    case 'forest':
+                        planetImg.style.background = 'radial-gradient(circle, #7fcd91 10%, #27ae60 100%)';
+                        break;
+                    case 'ice':
+                        planetImg.style.background = 'radial-gradient(circle, #e3f4fc 10%, #7fb3d5 100%)';
+                        break;
+                    case 'volcanic':
+                        planetImg.style.background = 'radial-gradient(circle, #e74c3c 10%, #7c3a3a 100%)';
+                        break;
+                    case 'gas':
+                        planetImg.style.background = 'radial-gradient(circle, #9b59b6 10%, #5b2c6f 100%)';
+                        break;
+                }
+                
+                planetDiv.appendChild(planetImg);
+                planetsContainer.appendChild(planetDiv);
+            });
+        }
+        
+        // Check if user is already logged in
+        async function checkSession() {
+            const supabaseUrl = "https://uscneaditvwbgcvablgp.supabase.co";
+            const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzY25lYWRpdHZ3YmdjdmFibGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NzQyMzIsImV4cCI6MjA1NzA1MDIzMn0.wozXuE7vxl3uc2gyZTXpIAQh_XrKJbG8vq7VT4mcVHM";
+            const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+            
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    // User is already logged in, update login button
+                    const loginBtn = document.getElementById('login-btn');
+                    loginBtn.textContent = 'Continue Creating';
+                    loginBtn.href = 'game.html';
+                }
+            } catch (error) {
+                console.error("Authentication check failed:", error);
+            }
+        }
+    </script>
 </body>
 </html>

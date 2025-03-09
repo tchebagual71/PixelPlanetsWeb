@@ -3,292 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixel Planets</title>
+    <title>Pixel Planets - Create Your Own Procedural Pixel Art Worlds</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #0a0e17;
-            color: #e0e0e0;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% 15%, rgba(40, 68, 120, 0.4) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(40, 68, 120, 0.4) 0%, transparent 40%);
-        }
-        
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 0 20px;
-            position: relative;
-        }
-        
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            color: #3498db;
-            text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
-            animation: glow 3s infinite alternate;
-        }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
-            to { text-shadow: 0 0 20px rgba(52, 152, 219, 0.8); }
-        }
-        
-        p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 15px 30px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            transition: background-color 0.3s, transform 0.2s;
-            margin: 10px;
-        }
-
-        .planet-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-          }
-          
-        .gif{
-            width: 33%;
-            height: auto;
-            margin: 0 auto 20px;
-            background-color: #3498db;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
-            animation: glow 3s infinite alternate;
-        }
-        
-        .planet-gallery img {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 2px solid #2c3e50;
-            transition: transform 0.2s, border-color 0.2s;
-          }
-          
-        .planet-gallery img:hover {
-            transform: scale(1.05);
-            border-color: #3498db;
-          }
-        
-        .cta-button:hover {
-            background-color: #2980b9;
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        
-        .cta-button:active {
-            transform: translateY(-1px);
-        }
-        
-        .secondary-button {
-            background-color: transparent;
-            border: 2px solid #3498db;
-        }
-        
-        .secondary-button:hover {
-            background-color: rgba(52, 152, 219, 0.2);
-        }
-        
-        .hero-image {
-            margin-bottom: 30px;
-            position: relative;
-        }
-        
-        .planet {
-            width: 200px;
-            height: 200px;
-            background: linear-gradient(45deg, #3498db, #9b59b6);
-            border-radius: 50%;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(52, 152, 219, 0.5);
-            animation: rotate 20s linear infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .crater {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 50%;
-        }
-        
-        .crater:nth-child(1) {
-            width: 30px;
-            height: 30px;
-            top: 40px;
-            left: 40px;
-        }
-        
-        .crater:nth-child(2) {
-            width: 20px;
-            height: 20px;
-            top: 120px;
-            left: 130px;
-        }
-        
-        .crater:nth-child(3) {
-            width: 40px;
-            height: 40px;
-            top: 140px;
-            left: 60px;
-        }
-        
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-        
-        .star {
-            position: absolute;
-            background-color: #fff;
-            border-radius: 50%;
-            opacity: 0.5;
-            animation: twinkle 2s infinite alternate;
-        }
-        
-        @keyframes twinkle {
-            from { opacity: 0.2; }
-            to { opacity: 0.8; }
-        }
-        
-        /* Pixel Art Section */
-        .pixel-grid {
-            display: grid;
-            grid-template-columns: repeat(16, 1fr);
-            width: 200px;
-            height: 200px;
-            margin: 0 auto;
-        }
-        
-        .pixel {
-            aspect-ratio: 1;
-            transition: background-color 0.3s;
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: rgba(20, 30, 48, 0.8);
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 3rem;
-            }
-            
-            p {
-                font-size: 1rem;
-            }
-            
-            .cta-button {
-                padding: 12px 24px;
-                font-size: 1rem;
-            }
-            
-            .planet {
-                width: 150px;
-                height: 150px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-buttons {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .cta-button {
-                width: 200px;
-                margin: 5px 0;
-            }
-        }
-    </style>
+    <meta name="description" content="Create, customize, and share your own procedurally generated pixel planets in this interactive web experience.">
 </head>
 <body>
     <div class="stars" id="stars"></div>
-    <!-- //put responsive gif here centered src is /home/tdieckman/PixelPlanetsWeb/TemplateData/unipp.gif-->
+    
     <div class="hero">
-        <img class="gif" id="gif" src="TemplateData/unipp.gif" alt="Responsive image">
-
-        <!-- <div id="gif-center"    >
-            <img src="TemplateData/unipp.gif" alt="Responsive image" id="gif" class="gif">
-
-        </div> -->
-        <!-- <div class="hero-image">
-
-            <div class="planet">
-                <div class="crater"></div>
-                <div class="crater"></div>
-                <div class="crater"></div>
+        <div class="hero-content">
+            <div class="hero-image">
+                <img class="gif" src="TemplateData/unipp.gif" alt="Pixel Planet Animation">
             </div>
-        </div> -->
-        
-        <h1>Pixel Planets</h1>
-        <p>Create, customize, and share your own procedurally generated pixel planets in this interactive web experience. Design unique worlds with different biomes, atmospheres, and features.</p>
-        
-        <div class="hero-buttons">
-            <a href="login.html" class="cta-button">Start Creating</a>
-            <!-- <a href="#about" class="cta-button secondary-button">Learn More</a> -->
-            <a href="about.html" class="cta-button secondary-button">About</a>
+            
+            <h1 class="glow-text">Pixel Planets</h1>
+            <p>Create, customize, and share your own procedurally generated pixel planets in this interactive web experience. Design unique worlds with different biomes, atmospheres, and features.</p>
+            
+            <div class="hero-buttons">
+                <a href="login.html" class="cta-button" id="cta-button">Start Creating</a>
+                <a href="about.html" class="cta-button secondary-button">Learn More</a>
+            </div>
         </div>
 
-        <!-- create about section
-        <section id="about">
-            <h2>About Pixel Planets</h2>
-            <p>Pixel Planets is a web-based interactive experience that allows users to create and customize their own pixel art planets. Users can choose from a variety of biomes, atmospheres, and features to design unique worlds. The planets are procedurally generated, meaning that each planet is one-of-a-kind. Users can save and share their creations with others, as well as explore planets created by the community.</p>
-        </section>
-         -->
         <footer>
             &copy; 2023-2025 Pixel Planets. All rights reserved.
         </footer>
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            checkSession();
+        });
+
         // Create stars background
         function createStars() {
             const starsContainer = document.getElementById('stars');
@@ -324,20 +73,18 @@
             const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzY25lYWRpdHZ3YmdjdmFibGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NzQyMzIsImV4cCI6MjA1NzA1MDIzMn0.wozXuE7vxl3uc2gyZTXpIAQh_XrKJbG8vq7VT4mcVHM";
             const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
             
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                // User is already logged in, update CTA button
-                const ctaButton = document.querySelector('.cta-button');
-                ctaButton.textContent = 'Continue Creating';
-                ctaButton.href = 'game.html';
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (session) {
+                    // User is already logged in, update CTA button
+                    const ctaButton = document.getElementById('cta-button');
+                    ctaButton.textContent = 'Continue Creating';
+                    ctaButton.href = 'game.html';
+                }
+            } catch (error) {
+                console.error("Authentication check failed:", error);
             }
         }
-        
-        // Call functions on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            createStars();
-            checkSession();
-        });
     </script>
 </body>
 </html>
