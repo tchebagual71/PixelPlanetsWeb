@@ -1,273 +1,343 @@
 <!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixel Planets</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  </head>
-  <body>
-    <div id="auth-container">
-      <h1>Pixel Planets</h1>
-      <div id="auth-form">
-        <input type="email" id="email" placeholder="Enter email">
-        <input type="password" id="password" placeholder="Enter Password">
-        <div class="button-group">
-          <button onclick="signUp()">Sign Up</button>
-          <button onclick="signIn()">Login</button>
-          <button onclick="signOut()" class="secondary-btn">Logout</button>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0a0e17;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(40, 68, 120, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(40, 68, 120, 0.4) 0%, transparent 40%);
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+            animation: glow 3s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
+            to { text-shadow: 0 0 20px rgba(52, 152, 219, 0.8); }
+        }
+        
+        p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: background-color 0.3s, transform 0.2s;
+            margin: 10px;
+        }
+
+        .planet-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+          }
+          
+        .gif{
+            width: 33%;
+            height: auto;
+            margin: 0 auto 20px;
+            background-color: #3498db;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+            animation: glow 3s infinite alternate;
+        }
+        
+        .planet-gallery img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 2px solid #2c3e50;
+            transition: transform 0.2s, border-color 0.2s;
+          }
+          
+        .planet-gallery img:hover {
+            transform: scale(1.05);
+            border-color: #3498db;
+          }
+        
+        .cta-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cta-button:active {
+            transform: translateY(-1px);
+        }
+        
+        .secondary-button {
+            background-color: transparent;
+            border: 2px solid #3498db;
+        }
+        
+        .secondary-button:hover {
+            background-color: rgba(52, 152, 219, 0.2);
+        }
+        
+        .hero-image {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .planet {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(52, 152, 219, 0.5);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .crater {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+        }
+        
+        .crater:nth-child(1) {
+            width: 30px;
+            height: 30px;
+            top: 40px;
+            left: 40px;
+        }
+        
+        .crater:nth-child(2) {
+            width: 20px;
+            height: 20px;
+            top: 120px;
+            left: 130px;
+        }
+        
+        .crater:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 140px;
+            left: 60px;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            from { opacity: 0.2; }
+            to { opacity: 0.8; }
+        }
+        
+        /* Pixel Art Section */
+        .pixel-grid {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        
+        .pixel {
+            aspect-ratio: 1;
+            transition: background-color 0.3s;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(20, 30, 48, 0.8);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .cta-button {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+            
+            .planet {
+                width: 150px;
+                height: 150px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-button {
+                width: 200px;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <!-- //put responsive gif here centered src is /home/tdieckman/PixelPlanetsWeb/TemplateData/unipp.gif-->
+    <div class="hero">
+        <img class="gif" id="gif" src="TemplateData/unipp.gif" alt="Responsive image">
+
+        <!-- <div id="gif-center"    >
+            <img src="TemplateData/unipp.gif" alt="Responsive image" id="gif" class="gif">
+
+        </div> -->
+        <!-- <div class="hero-image">
+
+            <div class="planet">
+                <div class="crater"></div>
+                <div class="crater"></div>
+                <div class="crater"></div>
+            </div>
+        </div> -->
+        
+        <h1>Pixel Planets</h1>
+        <p>Create, customize, and share your own procedurally generated pixel planets in this interactive web experience. Design unique worlds with different biomes, atmospheres, and features.</p>
+        
+        <div class="hero-buttons">
+            <a href="login.html" class="cta-button">Start Creating</a>
+            <!-- <a href="#about" class="cta-button secondary-button">Learn More</a> -->
+            <a href="about.html" class="cta-button secondary-button">About</a>
         </div>
-      </div>
-      <div id="user-info">Not logged in</div>
-      <h2>Your Saved Planets</h2>
-      <div id="planet-gallery">
-        <p>Login to see your saved planets</p>
-      </div>
-    </div>
-    
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"></div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-webgl-logo2"></div>
-      </div>
+
+        <!-- create about section
+        <section id="about">
+            <h2>About Pixel Planets</h2>
+            <p>Pixel Planets is a web-based interactive experience that allows users to create and customize their own pixel art planets. Users can choose from a variety of biomes, atmospheres, and features to design unique worlds. The planets are procedurally generated, meaning that each planet is one-of-a-kind. Users can save and share their creations with others, as well as explore planets created by the community.</p>
+        </section>
+         -->
+        <footer>
+            &copy; 2023-2025 Pixel Planets. All rights reserved.
+        </footer>
     </div>
 
     <script>
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
-      var loadingBar = document.querySelector("#unity-loading-bar");
-      var progressBarFull = document.querySelector("#unity-progress-bar-full");
-      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
-      var warningBanner = document.querySelector("#unity-warning");
-
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      function unityShowBanner(msg, type) {
-        function updateBannerVisibility() {
-          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        // Create stars background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const count = 150;
+            
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Random size (smaller stars look better)
+                const size = Math.random() * 2;
+                
+                // Random animation delay
+                const delay = Math.random() * 3;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
         }
-        var div = document.createElement('div');
-        div.innerHTML = msg;
-        warningBanner.appendChild(div);
-        if (type == 'error') div.style = 'background: #ff3860; padding: 10px;';
-        else {
-          if (type == 'warning') div.style = 'background: #ffdd57; color: #333; padding: 10px;';
-          setTimeout(function() {
-            warningBanner.removeChild(div);
-            updateBannerVisibility();
-          }, 5000);
+        
+        // Check if user is already logged in
+        async function checkSession() {
+            const supabaseUrl = "https://uscneaditvwbgcvablgp.supabase.co";
+            const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzY25lYWRpdHZ3YmdjdmFibGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NzQyMzIsImV4cCI6MjA1NzA1MDIzMn0.wozXuE7vxl3uc2gyZTXpIAQh_XrKJbG8vq7VT4mcVHM";
+            const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+            
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                // User is already logged in, update CTA button
+                const ctaButton = document.querySelector('.cta-button');
+                ctaButton.textContent = 'Continue Creating';
+                ctaButton.href = 'game.html';
+            }
         }
-        updateBannerVisibility();
-      }
-
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/PixelPlanetsWeb.loader.js";
-      var config = {
-        dataUrl: buildUrl + "/PixelPlanetsWeb.data",
-        frameworkUrl: buildUrl + "/PixelPlanetsWeb.framework.js",
-        codeUrl: buildUrl + "/PixelPlanetsWeb.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "Pixel Planets",
-        productVersion: "1.0",
-        showBanner: unityShowBanner,
-      };
-
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-        container.className = "unity-mobile";
-        canvas.className = "unity-mobile";
-      } else {
-        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen
-        canvas.style.width = "960px";
-        canvas.style.height = "600px";
-      }
-
-      loadingBar.style.display = "block";
-
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-          fullscreenButton.onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-        }).catch((message) => {
-          alert(message);
+        
+        // Call functions on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            checkSession();
         });
-      };
-
-      document.body.appendChild(script);
     </script>
-    
-    <script>
-      const supabaseUrl = "https://uscneaditvwbgcvablgp.supabase.co";
-      const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzY25lYWRpdHZ3YmdjdmFibGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NzQyMzIsImV4cCI6MjA1NzA1MDIzMn0.wozXuE7vxl3uc2gyZTXpIAQh_XrKJbG8vq7VT4mcVHM";
-      const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
-
-      // Show loading status
-      function showStatus(message, isError = false) {
-        const userInfo = document.getElementById("user-info");
-        userInfo.textContent = message;
-        userInfo.style.backgroundColor = isError ? "#ff3860" : "#1c2331";
-        
-        if (isError) {
-          setTimeout(() => {
-            userInfo.style.backgroundColor = "#1c2331";
-          }, 3000);
-        }
-      }
-
-      async function signUp() {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        
-        if (!email || !password) {
-          showStatus("Please enter both email and password", true);
-          return;
-        }
-        
-        showStatus("Creating account...");
-        
-        const { data, error } = await supabase.auth.signUp({ 
-          email, 
-          password 
-        });
-        
-        if (error) {
-          showStatus(error.message, true);
-        } else {
-          showStatus("Signup successful! Check your email to confirm.");
-        }
-      }
-
-      async function signIn() {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        
-        if (!email || !password) {
-          showStatus("Please enter both email and password", true);
-          return;
-        }
-        
-        showStatus("Logging in...");
-        
-        const { data, error } = await supabase.auth.signInWithPassword({ 
-          email, 
-          password 
-        });
-        
-        if (error) {
-          showStatus(error.message, true);
-        } else {
-          showStatus(`Logged in as: ${data.user.email}`);
-          loadUserExports();
-        }
-      }
-
-      async function signOut() {
-        showStatus("Logging out...");
-        
-        const { error } = await supabase.auth.signOut();
-        
-        if (error) {
-          showStatus(error.message, true);
-        } else {
-          showStatus("Logged out");
-          document.getElementById("planet-gallery").innerHTML = "<p>Login to see your saved planets</p>";
-        }
-      }
-
-      async function loadUserExports() {
-        showStatus("Loading your planets...");
-        
-        const { data: { user }, error: userError } = await supabase.auth.getUser();
-        
-        if (userError || !user) {
-          showStatus("Not logged in", true);
-          return;
-        }
-        
-        const { data, error } = await supabase.storage.from("planet-exports").list(user.email + "/");
-        
-        if (error) {
-          showStatus("Error loading planets: " + error.message, true);
-          return;
-        }
-        
-        const gallery = document.getElementById("planet-gallery");
-        gallery.innerHTML = "";
-        
-        if (data && data.length > 0) {
-          data.forEach(file => {
-            const img = document.createElement("img");
-            img.src = `${supabaseUrl}/storage/v1/object/public/planet-exports/${user.email}/${file.name}`;
-            img.alt = file.name;
-            img.title = file.name;
-            img.addEventListener("click", () => {
-              // You could add functionality to load this planet in the editor
-              console.log("Selected planet:", file.name);
-            });
-            gallery.appendChild(img);
-          });
-          showStatus(`Logged in as: ${user.email}`);
-        } else {
-          gallery.innerHTML = "<p>No saved planets found. Create one!</p>";
-          showStatus(`Logged in as: ${user.email}`);
-        }
-      }
-
-      // Check if user is already signed in
-      (async function() {
-        showStatus("Checking login status...");
-        
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (session) {
-          showStatus(`Logged in as: ${session.user.email}`);
-          loadUserExports();
-        } else {
-          showStatus("Not logged in");
-        }
-      })();
-
-      // Listen for auth state changes
-      supabase.auth.onAuthStateChange((event, session) => {
-        if (session) {
-          showStatus(`Logged in as: ${session.user.email}`);
-          loadUserExports();
-        } else {
-          showStatus("Not logged in");
-          document.getElementById("planet-gallery").innerHTML = "<p>Login to see your saved planets</p>";
-        }
-      });
-
-      // Handle Enter key press in password field
-      document.getElementById("password").addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-          signIn();
-        }
-      });
-    </script>
-  </body>
+</body>
 </html>

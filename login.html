@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Planets - Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0a0e17;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(40, 68, 120, 0.4) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(40, 68, 120, 0.4) 0%, transparent 40%);
+            overflow: hidden;
+        }
+        
+        .login-container {
+            background-color: rgba(20, 30, 48, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            width: 320px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: #3498db;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .input-field {
+            margin-bottom: 20px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #2c3e50;
+            background-color: #1c2331;
+            color: #e0e0e0;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        button:active {
+            background-color: #1f6aa5;
+            transform: scale(0.98);
+        }
+        
+        .secondary-btn {
+            background-color: #34495e;
+        }
+        
+        .secondary-btn:hover {
+            background-color: #2c3e50;
+        }
+        
+        #status-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #1c2331;
+            transition: background-color 0.3s;
+            min-height: 20px;
+        }
+        
+        .error {
+            background-color: #ff3860 !important;
+        }
+        
+        .success {
+            background-color: #23d160 !important;
+        }
+
+        .planet-icon {
+            width: 400px;
+            height: 400px;
+            margin: 0 auto 20px;
+            background-color: #3498db;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+            animation: glow 3s infinite alternate;
+        }
+
+        .gif-center {
+            width: 400px;
+            height: auto;
+            margin: 0 auto 20px;
+            background-color: #3498db;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.6);
+            animation: glow 3s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(52, 152, 219, 0.6); }
+            to { box-shadow: 0 0 30px rgba(52, 152, 219, 0.9); }
+        }
+        
+        .planet-icon::before {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 20%;
+            background-color: rgba(255, 255, 255, 0.2);
+            top: 20%;
+            left: 20%;
+            border-radius: 50%;
+            transform: rotate(-15deg);
+        }
+        
+        .planet-icon::after {
+            content: '';
+            position: absolute;
+            width: 30%;
+            height: 10%;
+            background-color: rgba(255, 255, 255, 0.15);
+            top: 50%;
+            left: 10%;
+            border-radius: 50%;
+            transform: rotate(20deg);
+        }
+        
+        /* Stars background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            from { opacity: 0.2; }
+            to { opacity: 0.8; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="login-container">
+        
+        <!-- <img src="TemplateData/unipp.gif" alt="Responsive image" class="gif-center"> -->
+
+            <div class="planet">
+                <img src="TemplateData/planet.png" alt="Planet" >
+                <div class="crater"></div>
+                <div class="crater"></div>
+                <div class="crater"></div>
+            </div>
+      
+        <h1>Login to Pixel Planets</h1>
+        
+        <div class="input-field">
+            <input type="email" id="email" placeholder="Email" tabindex="1">
+        </div>
+        
+        <div class="input-field">
+            <input type="password" id="password" placeholder="Password" tabindex="2">
+        </div>
+        
+        <button onclick="signIn()" id="login-btn" tabindex="3">Login</button>
+        <button onclick="signUp()" class="secondary-btn" tabindex="4">Sign Up</button>
+        
+        <div id="status-message">Enter your credentials to play</div>
+    </div>
+
+    <script>
+        // Create stars background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const count = 100;
+            
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Random size
+                const size = Math.random() * 2;
+                
+                // Random animation delay
+                const delay = Math.random() * 3;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.animationDelay = `${delay}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Call star creation on load
+        document.addEventListener('DOMContentLoaded', createStars);
+
+        // Supabase configuration
+        const supabaseUrl = "https://uscneaditvwbgcvablgp.supabase.co";
+        const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzY25lYWRpdHZ3YmdjdmFibGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NzQyMzIsImV4cCI6MjA1NzA1MDIzMn0.wozXuE7vxl3uc2gyZTXpIAQh_XrKJbG8vq7VT4mcVHM";
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        
+        // Game URL to redirect to after successful login
+        const gameUrl = "game.html";
+
+        // Function to show status messages
+        function showStatus(message, type = null) {
+            const statusElement = document.getElementById("status-message");
+            statusElement.textContent = message;
+            
+            // Remove any existing classes
+            statusElement.classList.remove("error", "success");
+            
+            if (type === "error") {
+                statusElement.classList.add("error");
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    statusElement.classList.remove("error");
+                }, 3000);
+            } else if (type === "success") {
+                statusElement.classList.add("success");
+            }
+        }
+
+        async function signIn() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            if (!email || !password) {
+                showStatus("Please enter both email and password", "error");
+                return;
+            }
+            
+            showStatus("Logging in...");
+            document.getElementById("login-btn").disabled = true;
+            
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({ 
+                    email, 
+                    password 
+                });
+                
+                if (error) {
+                    showStatus(error.message, "error");
+                    document.getElementById("login-btn").disabled = false;
+                } else {
+                    showStatus("Login successful, redirecting...", "success");
+                    // Store user in local storage
+                    localStorage.setItem("pixelPlanetsUser", JSON.stringify(data.user));
+                    // Redirect to game page
+                    setTimeout(() => {
+                        window.location.href = gameUrl;
+                    }, 1000);
+                }
+            } catch (err) {
+                showStatus("Login failed: " + err.message, "error");
+                document.getElementById("login-btn").disabled = false;
+            }
+        }
+
+        async function signUp() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            if (!email || !password) {
+                showStatus("Please enter both email and password", "error");
+                return;
+            }
+            
+            if (password.length < 6) {
+                showStatus("Password must be at least 6 characters", "error");
+                return;
+            }
+            
+            showStatus("Creating account...");
+            
+            try {
+                const { data, error } = await supabase.auth.signUp({ 
+                    email, 
+                    password 
+                });
+                
+                if (error) {
+                    showStatus(error.message, "error");
+                } else {
+                    showStatus("Signup successful! Check your email to confirm.", "success");
+                }
+            } catch (err) {
+                showStatus("Signup failed: " + err.message, "error");
+            }
+        }
+        
+        // Check if user is already logged in
+        (async function() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                // User is already logged in, redirect to game
+                localStorage.setItem("pixelPlanetsUser", JSON.stringify(session.user));
+                window.location.href = gameUrl;
+            }
+        })();
+        
+        // Handle Enter key press
+        document.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                signIn();
+            }
+        });
+    </script>
+</body>
+</html>
