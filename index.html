@@ -75,7 +75,7 @@
         
         // Check if user is already logged in
         async function checkSession() {
-            const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+            const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
             const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEYL;
 
                 const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
