@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pixel Planets - Create Your World</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
@@ -22,14 +23,24 @@
         </div> -->
       </div>
       <div class="header-buttons">
+        <!-- <button id="toggle-panel-btn" class="btn btn-secondary">My Planets</button> -->
+        <!-- <button onclick="signIn()" id="login-btn" tabindex="3" class="auth-button primary-button">Login</button> -->
         <button id="toggle-panel-btn" class="btn btn-secondary">My Planets</button>
+        <!-- <button onclick="signOut()" id="login-btn" class="btn btn-primary">Logout</button> -->
         <button id="logout-btn" class="btn btn-primary">Logout</button>
+        <button id="unity-fullscreen-button" class="btn btn-primary">Maximize</button>
+
+        <!-- add toggle full screen button -->
+        <div class= "unity-fullscreen-button" id="unity-fullscreen-button"></div>
+
+
+        <!-- <div id="unity-build-title">Copyright © 2023-2025 Pixel Planets. All rights reserved.</div> -->
       </div>
     </div>
 
     <div id="planets-panel">
       <button id="close-panel" aria-label="Close panel">&times;</button>
-      <h2>My Planets</h2>
+      <h2>Coming Soon</h2>
       <div id="planet-gallery"></div>
     </div>
     
@@ -41,11 +52,16 @@
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
-      <div id="unity-warning"></div>
-      <div id="unity-footer">
+      <div id="unity-warning">
+        Your browser does not support WebGL. Find out how to get it <a href="https://get.webgl.org/" title="WebGL official website">here</a>!
+      </div>
+      <div id="unity-mobile-warning">
+        Please rotate your device to landscape orientation.
+      </div>
+      <!-- <div id="unity-footer">
         <div id="unity-fullscreen-button" title="Toggle Fullscreen"></div>
         <div id="unity-build-title">Copyright © 2023-2025 Pixel Planets. All rights reserved.</div>
-      </div>
+      </div> -->
     </div>
     
     <script>
