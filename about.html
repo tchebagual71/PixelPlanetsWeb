@@ -31,7 +31,22 @@
     
     <main>
         <section class="about-section">
-            <h2>About Pixel Planets</h2>
+            <h2>For the Creators and Artist</h2>
+            <!-- <p>Pixel Planets is a web-based interactive experience that lets you create and customize your own pixel art planets. Our procedural generation system ensures that each planet is unique, giving you endless possibilities to explore and create.</p> -->
+            <!-- <p>Utilizing the incredible shaders provided by https://itch.io/login?return_to=https%3A%2F%2Fdeep-fold.itch.io%2Fpixel-planet-generator&intent=follow_user</p>
+            <p>Pixel Planets is designed for artists, game developers, and anyone who enjoys creating digital art. Whether you're a beginner or an experienced pixel artist, you'll find our platform intuitive and powerful, allowing you to bring your creative visions to life.</p>
+            <h3> big shoutout to deep-fold and his shaders in godot for allowing this web app to be possible</h3>
+            <p>please follow him at the following links, and give him the credit he deserves</p>
+            <p>https://deep-fold.itch.io/pixel-planet-generator</p>
+            <p>https://twitter.com/deep_fold</p>
+
+            <div class="gif-container">
+                <img src="TemplateData/unipp.gif" alt="Pixel Planets Demo" loading="lazy">
+            </div> -->
+
+            <p>The project began as an exploration of procedural generation techniques applied to pixel art. We wanted to create a tool that would be both accessible to beginners and deep enough for experienced artists to enjoy. The result is a platform where users can easily generate beautiful pixel planets with just a few clicks, while still having fine control over the details.</p>
+            <p>Utilizing the incredible shaders provided by <a href="https://deep-fold.itch.io/pixel-planet-generator">deep-fold</a> in godot for allowing this web app to be possible</p>
+
             <p>Pixel Planets is a web-based interactive experience that lets you create and customize your own pixel art planets. Our procedural generation system ensures that each planet is unique, giving you endless possibilities to explore and create.</p>
             
             <div class="gif-container">
@@ -107,15 +122,23 @@
         
         <section class="about-section team-section">
             <h2>The Team</h2>
-            <p>Pixel Planets is developed by a small team of passionate developers, artists, and procedural generation enthusiasts:</p>
+            <p>Pixel Planets is developed by a small team of two devs.
+                <p>(As well as the beautiful code and shaders provided by <a href="https://deep-fold.itch.io/pixel-planet-generator">@deep-fold</a>)</p>
+    
+            </p>
             
             <div class="team-member">
-                <div class="member-avatar"></div>
-                <h3 class="member-name">Lead Developer</h3>
-                <p class="member-role">Architecture & Procedural Generation</p>
+                <div class="member-avatar" style="background: url('TemplateData/brayavi.png') no-repeat center center / cover;"></div>
+                <h3 class="member-name">Bray</h3>
+                <p class="member-role">Backend Architecture & Procedural Generation</p>
                 <p>Responsible for the core procedural generation algorithms and overall application architecture.</p>
             </div>
-            
+            <div class="team-member">
+                <div class="member-avatar" style="background: url('TemplateData/tobyavi.png') no-repeat center center / cover;"></div>
+                <h3 class="member-name">Tobes</h3>
+                <p class="member-role">UI/UX Design & Web Development</p>
+                <p>Handles the user interface design, front-end development, and overall user experience of the application.</p>
+            </div>
             <p>We're constantly working to improve Pixel Planets and add new features. If you have suggestions or feedback, we'd love to hear from you!</p>
         </section>
     </main>
@@ -193,28 +216,26 @@
                 planetImg.style.width = '100%';
                 planetImg.style.height = '100%';
                 planetImg.title = planet.name;
-                
-                // Assign different colors based on planet type
-                switch(planet.type) {
-                    case 'desert':
-                        planetImg.style.background = 'radial-gradient(circle, #d4b483 10%, #b38728 100%)';
-                        break;
-                    case 'ocean':
-                        planetImg.style.background = 'radial-gradient(circle, #66c3ff 10%, #2980b9 100%)';
-                        break;
-                    case 'forest':
-                        planetImg.style.background = 'radial-gradient(circle, #7fcd91 10%, #27ae60 100%)';
-                        break;
-                    case 'ice':
-                        planetImg.style.background = 'radial-gradient(circle, #e3f4fc 10%, #7fb3d5 100%)';
-                        break;
-                    case 'volcanic':
-                        planetImg.style.background = 'radial-gradient(circle, #e74c3c 10%, #7c3a3a 100%)';
-                        break;
-                    case 'gas':
-                        planetImg.style.background = 'radial-gradient(circle, #9b59b6 10%, #5b2c6f 100%)';
-                        break;
-                }
+                    switch (planet.type) {
+                        case 'desert':
+                            planetImg.style.background = 'url("TemplateData/8.png") no-repeat center center / cover';
+                            break;
+                        case 'ocean':
+                            planetImg.style.background = 'url("TemplateData/2.png") no-repeat center center / cover';
+                            break;
+                        case 'forest':
+                            planetImg.style.background = 'url("TemplateData/9.png") no-repeat center center / cover';
+                            break;
+                        case 'ice':
+                            planetImg.style.background = 'url("TemplateData/4.png") no-repeat center center / cover';
+                            break;
+                        case 'volcanic':
+                            planetImg.style.background = 'url("TemplateData/5.png") no-repeat center center / cover';
+                            break;
+                        case 'gas':
+                            planetImg.style.background = 'url("TemplateData/6.png") no-repeat center center / cover';
+                            break;
+                    }
                 
                 planetDiv.appendChild(planetImg);
                 planetsContainer.appendChild(planetDiv);
