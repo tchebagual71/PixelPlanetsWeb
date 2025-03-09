@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="TemplateData/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta name="description" content="Login or sign up to create and customize your own pixel planets.">
+
 </head>
 <body>
     <div class="stars" id="stars"></div>
@@ -83,9 +84,10 @@
         }
         
         // Supabase configuration
-        const supabaseUrl = "https://uscneaditvwbgcvablgp.supabase.co";
-        const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzY25lYWRpdHZ3YmdjdmFibGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NzQyMzIsImV4cCI6MjA1NzA1MDIzMn0.wozXuE7vxl3uc2gyZTXpIAQh_XrKJbG8vq7VT4mcVHM";
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+                const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+                const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEYL;
+                
+                const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
         
         // Game URL to redirect to after successful login
         const gameUrl = "game.html";

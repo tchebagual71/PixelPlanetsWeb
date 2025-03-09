@@ -75,9 +75,10 @@
         
         // Check if user is already logged in
         async function checkSession() {
-            const supabaseUrl = "https://uscneaditvwbgcvablgp.supabase.co";
-            const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVzY25lYWRpdHZ3YmdjdmFibGdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE0NzQyMzIsImV4cCI6MjA1NzA1MDIzMn0.wozXuE7vxl3uc2gyZTXpIAQh_XrKJbG8vq7VT4mcVHM";
-            const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+            const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+            const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEYL;
+
+                const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
             
             try {
                 const { data: { session } } = await supabase.auth.getSession();
